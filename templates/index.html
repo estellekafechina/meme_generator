@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Créateur de Mèmes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Bienvenue sur le Créateur de Mèmes</h1>
+    </header>
+    <nav>
+        <ul>
+            <!-- <li><a href="#create">Créer un Mème</a></li>
+            <li><a href="galery">Galerie de Mèmes</a></li>
+            <li><a href="download">Télécharger Mèmes</a></li> -->
+        </ul>
+    </nav>
+
+    <!-- Section de création de mème -->
+    <section id="create">
+        <h2>Créer un Mème</h2>
+        <form action="/meme/create-meme" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" required>
+            <input type="text" name="text" placeholder="Entrez votre texte ici" required>
+            <button type="submit">Créer le meme</button>
+        </form>
+        <div id="meme-preview" style="position: relative; display: inline-block;">
+            <img id="image-preview" src="" alt="Image Preview" style="max-width: 500px; display: none;">
+            <div id="text-preview" style="position: absolute; top: 0; left: 0; color: white; font-size: 20px; padding: 10px;"></div>
+        </div>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    </section>
+
+    <!-- Galerie de mèmes -->
+    <section id="gallery">
+        <header>
+            <h1>Galerie de Mèmes</h1>
+        </header>
+        <div class="gallery">
+            {% for meme in memes %}
+                <div class="meme">
+                    <img src="{{ url_for('static', filename=meme.image_path) }}" alt="Mème">
+                    <p>{{ meme.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Section de téléchargement (exemplaire pour la structure, ajoutez votre logique) -->
+    <section id="download">
+        <h1>Telechargement!</h1>
+    <img src="{{ url_for('static', filename=image_path) }}" alt="Mème">
+    <a href="{{ url_for('static', filename=image_path) }}" download>Télécharger</a>
+
+    <!-- Partage sur Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('static', filename=image_path, _external=True) }}" target="_blank">Partager sur Facebook</a>
+
+    <!-- Partage sur Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Regardez%20ce%20mème&url={{ url_for('static', filename=image_path, _external=True) }}" target="_blank">Partager sur Twitter</a>
+
+    <!-- Partage sur WhatsApp -->
+    <a href="https://api.whatsapp.com/send?text=Regardez%20ce%20mème%20{{ url_for('static', filename=image_path, _external=True) }}" target="_blank">Partager sur WhatsApp</a>
+
+    <!-- Partage sur LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ url_for('static', filename=image_path, _external=True) }}" target="_blank">Partager sur LinkedIn</a>
+    </section>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
